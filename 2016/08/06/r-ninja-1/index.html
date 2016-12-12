@@ -1,0 +1,136 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Xiang"><meta name="description" content="本系列来源于谢益辉的github."><meta name="keywords" content=""><title>谢益辉-one · Eric</title><link rel="icon" href="/favicon.ico"><link rel="canonical" href="http://yoursite.com/2016/08/06/r-ninja-1/"><link rel="alternate" href="/atom.xml" title="Eric"><link rel="stylesheet" href="/css/style.css"><script type="text/javascript">var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?Your baidu Analytics ID";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'Your Google Analytics ID', 'auto');
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Eric</a><ul class="nav"><li class="nav-link"><a href="/" target="_self">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/tags/" target="_self">Tags</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><article class="post"><h1 class="post-title">谢益辉-one</h1><span class="post-time">Aug 6, 2016</span><div id="sidebar" class="post-sidebar"><h3 class="heading">Contents</h3><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#安装与配置"><span class="toc-text">安装与配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装R"><span class="toc-text">安装R</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#R主程序"><span class="toc-text">R主程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#R附加包"><span class="toc-text">R附加包</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置R"><span class="toc-text">配置R</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Renviron文件"><span class="toc-text">.Renviron文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Rprofile文件"><span class="toc-text">.Rprofile文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PATH环境变量"><span class="toc-text">PATH环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows下的Rconsole文件"><span class="toc-text">Windows下的Rconsole文件</span></a></li></ol></li></ol></li></ol></div><div class="post-content"><p>本系列来源于谢益辉的github.<a id="more"></a></p>
+<h1 id="安装与配置"><a href="#安装与配置" class="headerlink" title="安装与配置"></a>安装与配置</h1><p>你有志于成长为一名忍者，很好，那么首先去把火影看完了再来看这本秘笈吧。</p>
+<p>当然，不看火影也没关系。咦，怎么有些观众朋友真的离场了？剩下的朋友就别去叫他们了。R这货，是统计学家为统计学开发的一套数据杀器，但那只是对下忍的介绍，对一名上忍来说，必须对它有更全面的认识，否则你查克拉再强、分身再多，在执行任务时也可能会被各种与统计无关的细节给缠死。R的安装有专门的手册，名曰 <code>R Installation and Administration</code> ，我就不说它在哪儿了，你也别问我要，如果你真的那么感兴趣，请自己去找。</p>
+<p>哎哎，怎么又有几位客官走了？其实不用这么听话的，忍者得有自己的判断。我不说的原因是R官方的所有手册基本上都很坑爹，R核心团队都是写代码的高手，可是手册写出来都让人昏昏欲睡，一点读的欲望都没有，这样也好，让他们专注于代码开发吧。迄今为止，我唯一看的手册是 <code>Writing R Extensions</code> ，因为我需要写R包，不按它来就没法整；官方手册技术性太强，这也给无数作者创造了写作机会，不然你也不会看到这里来。</p>
+<h2 id="安装R"><a href="#安装R" class="headerlink" title="安装R"></a>安装R</h2><p>R的首页在<code>http://www.r-project.org</code>，你打开之后一定很失望，苍天呐，世上怎么还有这么古董的网站！几乎是纯文本网站（高级码农都这德行），首页上的那幅图已经七八年没换过了，还用着古老的框架技术。算了，不吐槽了，下载链接在左侧，写着CRAN的那地方。你是忍者，所以你当然不能直接去下载就完事，你得了解CRAN（Comprehensive R Archive Network）这一套东西。所谓的C什么AN是自由软件世界常见的软件分发方式，类似的还有为TeX准备的CTAN，为Perl弄的CPAN等。Linux打一出生就是通过网络发布的，直到今天这个特性还是没有变，后面再详谈Linux的问题。Archive Network的大意是这软件有个主服务器，然后在世界各地有一些镜像服务器，上面的文件和主服务器保持同步，这样减轻主服务器的下载压力，并让其它地区的用户能有更快的下载速度（从离自己近的本地服务器下载）。R除了自己的主程序，还有三千多个用户贡献的附加包，以及各种文档，这一大箩筐东西被复制到世界各地几十台服务器上供用户下载。</p>
+<p>你是中国用户，可以选一个国内的镜像。这里我们要特别感谢那些志愿提供服务器的单位对自由软件的支持，如厦门大学、中科院、中科大和北京交通大学等。咱们魏太云大版主对这些事情比较关心，国内要是出了新的镜像通常都是他率先报道（例<code>http://cos.name/cn/topic/106549</code>）。</p>
+<h3 id="R主程序"><a href="#R主程序" class="headerlink" title="R主程序"></a>R主程序</h3><p>先说Windows。要是能找到下载地址就去下，找不到的话，可爱的R core给做了一个自动重定向的网页：<code>http://cran.r-project.org/bin/windows/base/release.htm</code>，只要点这个链接，你就会下载最新版本的R，地址可以改为相应的本地镜像，如<code>http://ftp.ctex.org/mirrors/CRAN/bin/windows/base/release.htm</code>。各位忍者请务必研究这个页面的源代码，搞清楚为什么这个页面会让浏览器自动下载Windows版本的R安装程序。</p>
+<p>Windows中安装R注意几点：</p>
+<ol>
+<li>把默认安装目录中的R版本号去掉，比如要是R告诉你装在<code>C:/Program Files/R/R-2.15.0/</code>，不要接受这个结果，把它改成<code>C:/Program Files/R/</code>，原因后面解释；</li>
+<li>避免安装在中文目录下，因为Windows世界的各种鸟语方言编码问题，跟中文有关的东西往往会扯上麻烦；</li>
+<li>用自定义方式安装（装任何软件都用这种方式，你得了解你的软件里有什么组件、装哪儿去了以及有什么选项配置），默认情况下会装上翻译文件，但R的中文翻译实在不咋地，几年前我实在忍不下去了（那View菜单竟然翻译为单字“看”，这上哪儿说理去啊），动手把界面上的词句重新翻译了一下，好歹像人话了，不过R内部还有大量的条目没有翻译或翻译得很差，要是报个错你都不知道它到底在说什么；所以，还不如直接用原生的英文，不要安装翻译文件，不过这一点在R 2.15.0之后已经不可能了，R 2.14.2以及更早的版本我们可以在安装的时候就选择不要翻译文件，而2.15.0以后的语言配置参见本章最后关于<code>Rconsole</code>文件的说明；</li>
+</ol>
+<p><a href="https://i.imgur.com/5ZVXx.png" target="_blank" rel="external">去掉安装目录中的版本号目录</a></p>
+<p><a href="https://i.imgur.com/eI0sM.png" target="_blank" rel="external">R 2.15.0的安装界面（可选32位或64位的R）</a></p>
+<p><a href="https://i.imgur.com/kOphm.png" target="_blank" rel="external">R 2.15.0以前可以选择不安装消息翻译文件</a></p>
+<p>关于第1点，2011年4月我跟R core结结实实打了一仗，最终没有人同意我（战场：<code>http://bit.ly/GFluEX</code>）。为什么我认为默认带上版本号是个很糟糕的选择呢？主要是R一直在不断升级中，而在可怜的Windows底下没有直接升级的方式（快投奔Linux吧），必须先卸载老版本，下载新版本再重新安装。默认情况下，新版本装在新目录下，这样就导致你过去的设置或改动可能会出问题，在我的经历中，至少有两点麻烦：</p>
+<ol>
+<li>PATH环境变量需要手动更新（下一节再说忍者必读的PATH）；</li>
+<li>过去安装的附加包要么全部重新安装，要么手工挪动到新目录下；</li>
+</ol>
+<p>总之问题就是两个不同版本的R安装在不同目录下，你得废半天劲去更新各种配置。除非你真的需要多个版本，否则建议永远安装在同一个固定目录下。Windows Vista之后的用户还得关心权限问题，这又是Windows坑爹的发明，过去系统目录下（一般是C盘下）可以随便读写，现在要读写必须要弹个对话框让你确认或输密码。R等不了这事儿，所以要是没有写文件的权限，有些事情就得歇菜，例如安装附加包。这种情况下，建议干脆不要装在那个什么<code>C:/Program Files/</code>下，而是自己新建一个目录，比如<code>C:/Software/</code>，把你自己的软件装在这个目录下，Windows管不着。</p>
+<p>再说Linux。前面说了，Linux是嘴里含着互联网出生的，尽管它后面衍生了很多个发行版，多数情况下，软件都可以从发行版的软件仓库中直接安装，不必自行下载，R也不例外，它提供了四种发行版的仓库：Debian、RedHat、OpenSUSE和Ubuntu。我用的Linux发行版是Ubuntu（普通青年的选择），下面简单说说Ubuntu下的安装，这些步骤都在CRAN页面里，看得懂英文就能按照指示做（<code>http://cran.r-project.org/bin/linux/ubuntu/</code>）。</p>
+<p>首先添加R的软件库，可以从Synaptic软件包管理器中<code>Settings --&gt; Repositories --&gt; Other Software</code>然后添加（Add），把那一行<code>deb</code>命令贴在文本框中即可，但注意把镜像地址更改为合适的网址。</p>
+<p><a href="https://i.imgur.com/4uZ4M.png" target="_blank" rel="external">在Synaptic中添加R的软件库</a></p>
+<p><a href="https://i.imgur.com/0dWk4.png" target="_blank" rel="external">添加R软件库的命令行</a></p>
+<p>由于Linux下的软件库通常需要负责人签名验证安全性，在添加完R的仓库地址之后，还需要把仓库负责人的钥匙信息导入你的系统，这样你的Ubuntu才能放心从那里安装R，导入只是两行命令的事儿（打开终端Terminal敲命令）：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9</span><br><span class="line">gpg -a --export E084DAB9 | sudo apt-key add -</span><br></pre></td></tr></table></figure>
+<p>这样在Synaptic里刷新一下软件包的信息（Reload），然后搜索<code>r-base-dev</code>，钩上，安装即可，或者等价地，用命令行安装：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install r-base-dev</span><br></pre></td></tr></table></figure>
+<p>然而真正的忍者怎么能去看图文教程装软件呢？他从来都需要追求纯命令行搞定一切，否则让你装1台机器你点了n下鼠标，让你装30台机器你就得点<code>30 * n</code>次鼠标，从此你的生活就是，睡觉从不自然醒，不数钱手也抽筋。添加软件仓库根本用不着去想什么<code>/etc/apt/sources.list</code>或者点什么菜单按钮，下面是真正的忍者安装R的方式：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-add-repository -y <span class="string">"deb http://cran.rstudio.com/bin/linux/ubuntu `lsb_release -cs`/"</span></span><br><span class="line">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install r-base-dev</span><br></pre></td></tr></table></figure>
+<p>命令<code>apt-add-repository</code>用来添加仓库，<code>-y</code>选项表示“问，问毛线问，给我装就是了”，<code>lsb_release -cs</code>用来获得当前Ubuntu的版本名称，如<code>precise</code>/<code>raring</code>之类的（忍者从不把变量写死，能动态获得的东西都动态获得）。下面<code>apt-key</code>添加钥匙，接下来的事情前面都已经讲过了。</p>
+<p>装完之后基本上就没什么维护的事儿了，因为Ubuntu会定期提醒你软件仓库中什么软件出了新版本，如果你需要更新，只是点一下OK的事情，不像Windows下得手工卸载、下载、安装。唯一可能需要改动的是，如果将来Ubuntu自身的版本升级了，比如从oneiric升级到precise版本，那么上面的软件库地址里的相应版本也需要手工更新。</p>
+<p>对传统或高级Linux用户来说，装任何软件都还有一套古老的办法，那就是用伟大的<code>make</code>命令从源代码自行编译，很有黑客范儿。大致步骤很简单：从网上下载软件的源代码，通常是一个<code>*.tar.gz</code>压缩文件，解压缩，然后在终端中切换目录到解压缩文件夹下，运行：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+<p>这的确是个办法，几乎对任何软件适用。如果你（比如为了用满屏幕的命令行赢取PPMM的盲目崇拜）鼓起勇气尝试这一条路，你可能两个小时装不好。此时你才触碰到Linux的一个核心特征：软件依赖。在Linux世界里，经常存在A软件依赖于B软件，B依赖于C这样的现象，可能是因为开源的缘故，作者经常把自己的软件构建在别人的软件基础之上，这就导致一片依赖的海洋（当然不是所有的软件都有一大串依赖）。R也依赖大量的其它软件包，如果现在那PPMM还在眼巴巴看着你，那么就用这条无敌命令一次性解决依赖问题：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get build-dep r-base-dev</span><br></pre></td></tr></table></figure>
+<p>这样就一步把所有依赖包都装上了，然后可以按照上面说的<code>make</code>的方式编译。否则，就看<code>./configure</code>的输出，报告缺啥装啥，看不懂消息就上Google搜，自然会有人告诉你那个缺少的<code>*.h</code>头文件对应的是哪个包，就这样熟练的人可能三个小时可以装完，不熟的人大概三天可以装好，这里面尤其是Cairo那套东西，安装起来折磨死人。所以只要不是闲着没事干，不要轻易自行从源文件编译，不管它看起来多酷，当然，把它当作了解Linux的练习是可以的，初级Linux用户看到这一堆东西可能确实有某种自豪感。</p>
+<p>那些Linux软件仓库里放的软件实际上也是通过<code>make</code>的方式从源文件一步步编译出来的，只不过是服务器上预先编译好了，省去了用户自行编译和解决依赖的麻烦，直接就可以装编好的二进制包。</p>
+<p>最后是Mac OS，我不熟，以下指导来自杨一帆：同样可以使用编译安装（此时不含GUI，但是Mac预先包含的ATLAS库函数明显优于R自带的BLAS；或者简单地使用<code>http://cran.r-project.org/bin/macosx/</code>提供的PKG包，32/64/Intel/PPC版本都包含了GUI。唯一需要注意的是系统的版本，10.4以下的会有各种问题。</p>
+<h3 id="R附加包"><a href="#R附加包" class="headerlink" title="R附加包"></a>R附加包</h3><p>整个R系统主要是由一系列程序包（Package）组成，第一次装完R可以运行<code>.packages(TRUE)</code>查看R自带的包名。除开这些主程序包之外，CRAN上还有数千附加包，由R核心开发团队之外的用户自行提交，这数量级基本上保证用R干啥的都有，所以上天入地飞檐走壁不成问题。</p>
+<p>R包数量之大，有两个原因：一是R语言本身的确很强大，而且易开发，我通常非常佩服那些做了很牛的基础工作而且支持插件开发的软件，这需要程序在早期就有很好的设计；二是向CRAN提交包没有门槛，只要服从开源的许可证，什么人都可以写包，无论质量优劣。毫无疑问，CRAN上必然有很差劲的附加包，俗话说，CRAN大了，什么包都有。在安装附加包之前，我们得对包的质量有所判断，所以我们需要某种导航。导航有两种方式，官方的和民间的，后者就是口口相传，前者在CRAN上有一个链接，叫Task Views。</p>
+<p>关于这坑爹的程序包导航，没有看过它的用户第一次恐怕还真找不到，因为R主站上没有它的链接。R core的答复让人很伤心无奈，不在主页放链接的原因是怕用户直接访问CRAN主服务器给服务器增加负担，所以这个导航不放主页，而在CRAN镜像上躲猫猫。即，你访问<code>http://www.r-project.org</code>看不到导航，必须去<code>http://cran.r-project.org</code>或其它CRAN镜像才能看到。我当时看到这个解释有点石化的感觉。谁有钱了给R core们捐几台服务器吧！免得以后再看见这么寒碜的回答。</p>
+<p>开源软件通常都一定提供源代码包给你，但不一定提供编译好的二进制包，我们知道对计算机来说，它不认识源代码，只能运行编译过的代码。用过C语言的对此应该会有深刻印象，你先写一个<code>.c</code>文件，再用编译器把它编译为<code>.exe</code>（Windows）或<code>.so</code>（Linux）等二进制文件才能运行。R也一样，不仅它自己的主程序有源代码可以下载，附加包也一样有源代码。源代码包的形式通常是一个<code>*.tar.gz</code>压缩包，到CRAN主页一看就能找到R自己的源代码，形如<code>R-x.x.x.tar.gz</code>，其中<code>x.x.x</code>是R的版本号，如<code>2.14.2</code>；而关于附加包，可以从CRAN左侧的<code>Packages</code>链接进去找到所有附加包的列表页面，然后进入具体的包的页面，如果你已经知道包的名字，则可以用</p>
+<blockquote>
+<p><a href="http://cran.r-project.org/package=foobar" target="_blank" rel="external">http://cran.r-project.org/package=foobar</a></p>
+</blockquote>
+<p>直接访问<code>foobar</code>包的页面。其实忍者根本不来这一套，记那么多没用的步骤干嘛，直接打开Google搜CRAN加包名肯定就找到了。每个包的页面里有包的描述和卸载链接，通常有三个链接，分别对应着源代码（<code>foobar_x.x.tar.gz</code>）、Mac二进制包（<code>foobar_x.x.tgz</code>）和Windows二进制包（<code>foobar_x.x.zip</code>），视你的操作系统你可以选择一个下载。注意二进制包都是编译过的，所以那里面是看不到源代码的；要看源代码，必须下载源代码包解压缩之后才能看到，具体的某个函数定义在哪儿，就靠你的文本编辑器的搜索功能了，或者你的直觉。这一大套什么源代码什么二进制文件对普通青年都没用，只是对想深挖包里函数源代码的忍者提供一个下手的方向。</p>
+<p>普通青年在R里面安装附加包只需要用<code>install.packages()</code>函数，比如：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">'animation'</span>)</span><br></pre></td></tr></table></figure>
+<p>当然我这是强行植入广告，因为<strong>animation</strong>包是我写的。如果你没有指定R的镜像地址，R会首先问你从哪个镜像安装，选一个近的或顺眼的即可。当你第一次运行这个命令时，R会这样思考：</p>
+<ol>
+<li>你的R的安装目录可写吗？如果有写的权限，那么就把包装到R安装目录下，比如<code>C:/Software/R/library/</code>；</li>
+<li>如果安装不可写，比如你装在Windows关键的系统目录下，或者是Linux的<code>/usr/</code>目录下，那么R会问你要不要在你的用户目录下新建一个文件夹用来安装附加包；</li>
+</ol>
+<p>现在有一项重要的忍术要学习：用户目录。Windows用户对此可能没有感觉，因为软件都悄磨叽往这个目录下写东西，你也没注意过，比如上网的缓存文件等；Linux下的很多软件都必须使用这个目录，因为其它所有目录对当前用户来说都是没有写权限的（除非以超级用户身份输密码再执行）。用户目录的特征是它往往是当前系统用户可写的目录，而且所有写的数据只对当前用户有效；要是换个用户登录这个系统，前一个用户的数据对现在的用户毫无影响。这就比较适合存放软件的配置资料，每个用户的配置只对个人有效，免得同一个系统的不同用户之间相互干扰。欲知用户目录在哪儿，请在R中执行：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">normalizePath(<span class="string">'~'</span>)</span><br></pre></td></tr></table></figure>
+<p>波浪线<code>~</code>在操作系统中通常表示用户的HOME根目录，<code>normalizePath()</code>函数用来“标准化”一个路径，比如把<code>~</code>扩展为真实的物理路径。对于第一次听说用户目录的同学来说，不妨看看自己的用户目录下究竟有多少文件和文件夹：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 以.开头的都是隐藏文件</span></span><br><span class="line">list.files(<span class="string">'~'</span>, all.files = <span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
+<p>前面说道，如果R的安装目录不可写，R会在用户目录下创建一个新目录安装包，默认情况下这个目录名由<code>R版本号</code> + 操作系统信息 + <code>library</code>构成，但仍然是为了将来升级方面，我不推荐使用R默认的目录名称，因为它带版本号。那么如何人工指定R包的固定安装目录呢？这涉及到更高级的忍术：环境变量。下一节分解。</p>
+<p>R包通常都是纯R写成的，但也有掺杂别的程序语言的，比如C/C++/Fortran，这都是需要编译才能用的代码，这种情况下，CRAN服务器一般都会把源程序包预先编译为Windows/Mac二进制包，所以用户通常不需要了解如何编译R程序包（这方面的知识我们留到更后面再详述），直接装就是了，但有一种特别的情况例外，就是R包依赖于外部系统程序，这些程序没有打入R包发布，所以用户需要额外安装单独的外部程序。比如打开<strong>animation</strong>在CRAN上的页面<code>http://cran.r-project.org/package=animation</code>可以看到有一栏<code>SystemRequirements</code>，它说明了这个包的部分函数依赖于外部程序，如GraphicsMagick。</p>
+<p>对Linux用户来说，R默认安装方式就是从源代码包直接编译，此时要是有外部依赖软件，可能就会稍微麻烦一点，比如<strong>XML</strong>包依赖于<strong>libxml2</strong>，装R包<strong>XML</strong>之前，为了这个包能成功编译，必须先装系统软件<strong>libxml2-dev</strong>，注意是dev版本，因为通常这种版本里才含有头文件（<code>*.h</code>），Linux下的软件编译通常需要完整源文件。在你头疼之前，应该想到这种问题别人也一定觉得烦，所以必然有另外的办法。CRAN的Debian维护者把一些常用的依赖外部软件的R包集合起来直接放到了Debian的软件仓库中，在服务器端就直接解决依赖并编译好，这样我们就不需要额外安装那些源程序包了。这些特殊的包在Debian/Ubuntu中名为<strong>r-cran-foobar</strong>（全小写），比如我们可以直接安装<strong>XML</strong>包：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install r-cran-xml</span><br></pre></td></tr></table></figure>
+<p>类似的头疼R包还有<strong>RGtk2</strong>和<strong>rggobi</strong>等，在Synaptic中一搜就有。安装R包不到万不得已不要去使用蛮力（从源代码编译），不值得耗费那时间，忍者要集中于自己的任务，你最终是要折腾数据去的，不是去写Linux内核的。</p>
+<p>R包与包之间就像Linux程序包一样也可能存在依赖关系，通常<code>install.packages()</code>会自动处理依赖，如果A包依赖于B包，那么装A的时候会自动装B（这例子没举好，我应该用A和C的），就像Ubuntu下<code>apt-get install</code>也能自动解决依赖一样。</p>
+<h2 id="配置R"><a href="#配置R" class="headerlink" title="配置R"></a>配置R</h2><p>软件选项多到底是好事还是坏事？我也不知道，总之R像其它开源软件一样，有无穷的选项可配置。对新手来说，这是地狱；对熟悉的用户来说，这也许是天堂吧。我们主要介绍两个配置文件，<code>.Renviron</code>和<code>.Rprofile</code>。这两个文件名看起来有点奇怪，怪在哪儿？它们只有扩展名，没有主文件名，平时我们看见的文件名似乎都是<code>foobar.doc</code>。在操作系统中有一个默认的规则，凡是以点开头的文件都是隐藏文件，而且通常都是配置文件。前面那句<code>list.files()</code>代码你要是运行过，可能就会发现很多以点开头的文件和文件夹。</p>
+<p>R启动的时候会在系统的若干位置寻找配置文件，如果文件存在就会使用这些配置。这个巨复杂的启动过程在<code>?Startup</code>中有详细说明（问号是R中查看帮助的操作符），这是典型的Linux喜欢干的事情，什么点文件，什么环境变量，用得不亦乐乎。我总觉得这些东西把事情复杂化了，所以我只介绍两个配置文件，要是你愿意折腾那一堆系统环境变量，那么请便，我只介绍<code>PATH</code>这一个最重要的系统变量。</p>
+<h3 id="Renviron文件"><a href="#Renviron文件" class="headerlink" title=".Renviron文件"></a><code>.Renviron</code>文件</h3><p>这个文件是为R自身设置一些环境变量的，这里面的环境变量仅仅对R有效，不改变操作系统的设置。先说一下什么是环境变量：它们是在当前操作系统环境中的一些变量，同一个变量对不同的用户或不同的系统可能取值不同，这些变量对整个系统可见，所以系统内的所有程序都可以读取它们的值，就像我们写程序常常会事先赋值给一些常量供后面的代码使用一样。环境变量不需要有特定的名称，可以任意命名，但有些名称是约定俗成有特定意义的，比如<code>PATH</code>。</p>
+<p><code>.Renviron</code>文件放在你的用户目录下，也就是<code>~/</code>。你可以在R里面直接打开这个文件^[注意Windows下你可能无法用鼠标右键新建文件的方式直接创建这个文件，聪明的Windows只允许用户用命令行创建以点开头的文件名，请问你知道<code>mkdir</code>这个命令吗，或者你知道命令行窗口在哪儿打开吗？]：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果文件不存在，它会被自动创建</span></span><br><span class="line">file.edit(<span class="string">'~/.Renviron'</span>)</span><br></pre></td></tr></table></figure>
+<p>我只推荐放一个环境变量在这里，就是<code>R_LIBS_USER</code>，它指定R的附加包安装目录，比如这个文件里面可以写：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">R_LIBS_USER=<span class="string">"~/R"</span></span><br></pre></td></tr></table></figure>
+<p>写入这一行设置之后，保存文件，重启R，现在R就知道以后安装R包就优先安装到<code>~/R</code>目录下，也就是在用户目录下创建一个名为<code>R</code>的文件夹用来存放附加包。因为这个目录是固定的，所以即使将来升级R，R也会使用这个目录装包，你再也不必更新关于包的配置。另外一个好处是，R的附加包和主程序包分开在不同的位置，如果你不想用附加包了，你完全可以一口气把<code>~/R</code>删光，而完全不影响R自身的运行；否则，要是R主程序和附加包混在一个目录下（默认情况就是这样，除非主程序目录不可写），对包的管理来说也是大麻烦事。忍者必须把指挥部和小兵分清楚。注意如果<code>~/R</code>这个目录不存在的话，你需要自己创建它，这个也可以在R里面操作：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dir.create(<span class="string">'~/R'</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="Rprofile文件"><a href="#Rprofile文件" class="headerlink" title=".Rprofile文件"></a><code>.Rprofile</code>文件</h3><p>前面说到R启动时，会查看一系列文件；其中<code>.Renviron</code>文件用来设置一些R要用的环境变量，而<code>.Rprofile</code>文件则是一个R代码文件，在R启动时，如果这个文件存在，它会被首先执行。因此，如果我们有一些任务要在R启动时运行，或有一些个人选项要配置，都可以写在这个文件里。Windows下这个文件还可以叫另一个名字，但忍者应该遵守统一的纪律，所以我们只用<code>.Rprofile</code>这一个文件名。在R里面同样可以用<code>file.edit()</code>函数打开这个文件：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file.edit(<span class="string">'~/.Rprofile'</span>)</span><br></pre></td></tr></table></figure>
+<p>R的<code>options()</code>函数可用来设置R运行时的一些选项，其中一个常用的选项就是CRAN镜像地址，它告诉R应该从哪里安装附加包。这个选项默认为空，所以每次安装包或更新包，R都要跳出来问你选择哪个CRAN镜像，跳多了你可能也觉得烦，所以不如直接事先指定这个选项好了。以下是一种我在<code>.Rprofile</code>中的配置：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">options(repos = c(CRAN = <span class="string">"http://streaming.stat.iastate.edu/CRAN"</span>,</span><br><span class="line">                  CRANextra = <span class="string">"http://www.stats.ox.ac.uk/pub/RWin"</span>))</span><br></pre></td></tr></table></figure>
+<p>因为我在爱荷华州立大学，我们系有CRAN镜像，所以当然从这里安装最快；<code>CRANextra</code>主要是为Windows准备的，因为CRAN上有极少数的包没有Windows版本，但牛津大学的Ripley大人好心提供了Windows的二进制编译版本，所以那些包可以从他那边安装。</p>
+<p>这个文件中可以放任意R代码，就看各位的想象力和R功力如何了，用好这个文件可以为R编程增加不少方便。因为我是R包开发者，而我常用到<strong>devtools</strong>包，所以我的<code>.Rprofile</code>文件中还有一句：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (interactive()) &#123;</span><br><span class="line">  suppressMessages(<span class="keyword">require</span>(devtools))</span><br><span class="line">  options(warn = <span class="number">1</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段话是什么意思，留给读者思考。</p>
+<h3 id="PATH环境变量"><a href="#PATH环境变量" class="headerlink" title="PATH环境变量"></a><code>PATH</code>环境变量</h3><p>写这一节的时候，哥的心情十分复杂，因为这个环境变量之重要、人们对它忽视之极以及某操作系统对它隐藏之深，让哥常常感到深深绝望。普通青年可以跳过本节，但忍者必须对本节了如指掌。以下是在某操作系统上找PATH变量的步骤：</p>
+<blockquote>
+<p>“我的电脑”（右键）–&gt;“属性”–&gt;“高级”–&gt;“环境变量”–&gt;“系统变量”–&gt;PATH</p>
+</blockquote>
+<p>这里我们可以看到一连串路径。为什么系统要有个PATH变量？原因就是为了能够脱离程序的绝对路径以命令行方式来运行程序，这样使得程序员不必担心你的程序装在什么位置。当你在命令行窗口（Linux系统下叫终端，Terminal）中敲入一个命令时，系统就会从这一系列的PATH路径中去找你敲的这个程序是否存在，如果存在就运行它。Windows系统菜单“开始”–&gt;“运行”（或者快捷键Win + R），输入<code>cmd</code>回车运行，就会打开一个命令行窗口。如果你从来没用过这玩意儿，那你肯定是Windows深度中毒者，不妨先玩玩<code>dir</code>、<code>cd ..</code>等简单的系统命令，你每敲一个命令，系统都会从PATH中找有没有对应的可执行文件，比如敲R就会找R.exe或R.bat之类的程序文件，如果它们都不在PATH下，那么这个命令就会报错。</p>
+<p>R有多种调用方式，最常见的就是打开R，在里面输入代码运行，这称为交互式的运行，因为用户可以和R实时交互；我们还可以用非交互式方式运行R，这就需要我们能够在命令行窗口中直接调用R，继而需要R自身的路径在系统PATH变量中。</p>
+<p>这个路径在哪儿？如果你记不住自己的R装在哪儿，没关系，打开R，输入<code>R.home(&#39;bin&#39;)</code>就知道了。Windows下通常是类似于<code>C:/Program Files/R/R-2.xx.x/bin/</code>这样一个路径。说到这里，我得回音体一句：安装R的时候尽量装在一个不带版本号的目录下，否则将来更新很麻烦，而且每次装新版本的R还得再修改PATH变量，因为bin路径变了。当然，这一切都只对Windows有效（Windows简直就是为了折磨忍者而生的），Linux和Mac用户不用操心这个事情，因为它们的可执行文件通常放在某个特定PATH路径下，比如在Linux下查看R的可执行文件位置，就会发现它在<code>/usr/bin/</code>下，而这个目录本身就在PATH里面：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ which R</span><br><span class="line">/usr/bin/R</span><br><span class="line">$ echo $PATH</span><br><span class="line">/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</span><br></pre></td></tr></table></figure>
+<p>把R的bin路径添加到PATH中之后，可以在命令行窗口中测试一下是否能调用R：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">R --version</span><br></pre></td></tr></table></figure>
+<p>如果上面的命令打印出R的版本号，那么就配置成功了。这里敲R对命令行来说，就是看看PATH中那些路径里有没有一个路径下包含R.exe或者R.bat之类的可执行文件，这就是所谓的“脱离绝对路径运行程序”。由于Linux系统的程序管理方式和Windows不同（可执行文件通常统一放在<code>/bin/</code>或者<code>/usr/bin/</code>目录下），所以通常没有这些配置痛苦。</p>
+<p>为什么要以非交互式的方式运行R？其实这个问题可以扩展为，为什么要用命令行的方式调用程序？这就涉及到图形用户界面（GUI）操作和命令行界面（CLI）的话题了。计算机和人类各有所长，计算机擅长做枯燥的事情，比如玩儿命循环，跑十次和跑十万次对计算机来说只有时间上的差别，但人类肯定受不了多次重复操作；人类应该做的事情就是把自己的意愿写成代码，指示计算机去做。命令行可以做大量的图形界面无法或很难做的事情，比如批量抓取网页解析数据，要是三五个网页，你也许可以复制粘贴到Excel里，可是要是去复制五百个类似的网页，你还愿意去做吗？这样的事情可以用程序批量化处理。当R在PATH中时，操作系统中的任意其它程序都可以直接调用R，而不必知道R究竟安装在什么目录下，这就为所有程序的协作带来了可能（本来这个事情很简单，但被Windows的程序安装方式给复杂化了）。</p>
+<p>我们可以写一个R程序文件，比如叫<code>foobar.R</code>，里面包含抓取网页的代码，那么我们可以在命令行中直接执行它：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">R -f foobar.R</span><br></pre></td></tr></table></figure>
+<p>R还有另一个可执行文件叫<code>Rscript</code>，如果上面的PATH修改成功，我们也可以用<code>Rscript</code>命令执行一个R代码文件：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Rscript foobar.R</span><br></pre></td></tr></table></figure>
+<p>注意这些都是在命令行窗口中运行，而不是打开R，在R里面输入运行。以命令行方式调用R还有一个好处，就是它会新开一个R进程来执行文件，这样保证程序运行环境的干净；相比之下，交互式运行R代码的时候，可能会存在上一段代码中的结果意外“污染”下一段代码的运行，你现在觉得你的程序运行没有问题，但发给别人之后别人无法运行。</p>
+<p>关于R作为命令行工具的更多用法，参见：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">R --help</span><br></pre></td></tr></table></figure>
+<p>这是大多数Linux命令常用的查看帮助文件的方式（命令跟着<code>--help</code>参数）。</p>
+<h3 id="Windows下的Rconsole文件"><a href="#Windows下的Rconsole文件" class="headerlink" title="Windows下的Rconsole文件"></a>Windows下的Rconsole文件</h3><p>前面介绍的是所有系统通用的配置，这里我们再介绍一下Windows独有的一个配置文件：<code>Rconsole</code>，它是一个文本文件，它的路径可以直接用R代码找到：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file.path(R.home(<span class="string">'etc'</span>), <span class="string">'Rconsole'</span>)</span><br></pre></td></tr></table></figure>
+<p>你可以用任何文本编辑器打开它。这个文件用来配置Windows下R界面的属性，例如界面语言或字体等。Windows下默认的RGui字体是Courier New，如果我们的系统中安装了其它等宽字体，我们可以修改这个配置文件中的<code>font</code>项，例如使用DejaVu Sans Mono字体：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">font = TT DejaVu Sans Mono</span><br></pre></td></tr></table></figure>
+<p>界面语言也是一个常见问题，我们可以修改<code>language</code>项为中文（<code>zh_CN</code>）或英文（<code>en</code>），如：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">language = en</span><br></pre></td></tr></table></figure>
+<p>修改语言的一个重要原因是R的中文翻译尚欠缺火候，即使是很熟悉R的人，有时也未必能看懂中文错误消息。希望国内有热心志愿者能在这方面做出更多贡献，翻译小组的文件库位于：<code>https://github.com/r-cn/r-cntrans</code>。不过忍者必须熟悉英文，仅仅靠翻译的文字很难走远。</p>
+</div></article><div class="tags"></div><div class="paginator"><a id="prev" href="/2016/08/06/r-ninjia-2/" data-title="谢益辉-two" class="prev"><i class="iconfont icon-left"></i><span>Prev</span></a><a id="next" href="/2016/07/06/advanced_R_II/" data-title="R (Ani Katchova)" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div><section id="comments"><div id="disqus_thread"></div></section><script type="text/javascript">var disqus_config = function () {
+    this.page.url = 'http://yoursite.com/2016/08/06/r-ninja-1/';
+    this.page.identifier = '2016/08/06/r-ninja-1/';
+    this.page.title = '谢益辉-one';
+};
+(function() {
+var d = document, s = d.createElement('script');
+
+s.src = '//Your disqus ID.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();</script></section><footer><div class="social"><a href="mailto:xiangpan2011@163.com" title="email" class="iconfont icon-email"></a><a href="/atom.xml" title="rss" class="iconfont icon-rss"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Xiang</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>

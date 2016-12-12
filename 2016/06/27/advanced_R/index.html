@@ -1,0 +1,396 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Xiang"><meta name="description" content="AdvancedR，参考刘宁翻译的《R语言高级程序设计》。更详细的内容见原文。本文只是总结和归纳。注意，本片并没有严格按照原文。"><meta name="keywords" content="R"><title>Advanced R · Eric</title><link rel="icon" href="/favicon.ico"><link rel="canonical" href="http://yoursite.com/2016/06/27/advanced_R/"><link rel="alternate" href="/atom.xml" title="Eric"><link rel="stylesheet" href="/css/style.css"><script type="text/javascript">var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?Your baidu Analytics ID";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'Your Google Analytics ID', 'auto');
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Eric</a><ul class="nav"><li class="nav-link"><a href="/" target="_self">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/tags/" target="_self">Tags</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><article class="post"><h1 class="post-title">Advanced R</h1><span class="post-time">Jun 27, 2016</span><div id="sidebar" class="post-sidebar"><h3 class="heading">Contents</h3><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#内容提要"><span class="toc-text">内容提要</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#基础知识"><span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#data-structure"><span class="toc-text">data structure</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1d"><span class="toc-text">1d</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#atomic-vector"><span class="toc-text">atomic vector</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#List"><span class="toc-text">List</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#属性"><span class="toc-text">属性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#因子"><span class="toc-text">因子</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#矩阵和数组"><span class="toc-text">矩阵和数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据框"><span class="toc-text">数据框</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#创建、转换、连接"><span class="toc-text">创建、转换、连接</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#取子集操作"><span class="toc-text">取子集操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#取子集操作符"><span class="toc-text">取子集操作符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#取子集与赋值"><span class="toc-text">取子集与赋值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#词汇表"><span class="toc-text">词汇表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基础"><span class="toc-text">基础</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通用数据结构"><span class="toc-text">通用数据结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#统计学"><span class="toc-text">统计学</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用R语言"><span class="toc-text">使用R语言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#输入-输出"><span class="toc-text">输入/输出</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编码风格指南"><span class="toc-text">编码风格指南</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#函数"><span class="toc-text">函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#函数的组成部分"><span class="toc-text">函数的组成部分</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#primitive-function"><span class="toc-text">primitive function</span></a></li></ol></li></ol></li></ol></li></ol></div><div class="post-content"><p>Advanced R，参考刘宁翻译的《R语言高级程序设计》。更详细的内容见原文。本文只是总结和归纳。注意，本片并没有严格按照原文。<a id="more"></a></p>
+<p>[TOC]</p>
+<h1 id="内容提要"><a href="#内容提要" class="headerlink" title="内容提要"></a>内容提要</h1><ol>
+<li>基础知识</li>
+</ol>
+<ul>
+<li>介绍</li>
+<li>数据结构</li>
+<li>取子集操作</li>
+<li>词汇表</li>
+<li>编码风格指南</li>
+<li>函数</li>
+<li>面对对象指南</li>
+<li>环境</li>
+<li>调试、条件处理和防御性编程</li>
+</ul>
+<ol>
+<li>函数式编程</li>
+</ol>
+<ul>
+<li>函数式编程</li>
+<li>泛函</li>
+<li>函数运算符</li>
+</ul>
+<ol>
+<li>编程语言层面的计算</li>
+</ol>
+<ul>
+<li>非标准计算</li>
+<li>表达式</li>
+<li>领域特定语言</li>
+</ul>
+<ol>
+<li>性能</li>
+</ol>
+<ul>
+<li>性能</li>
+<li>优化代码</li>
+<li>内存</li>
+<li>使用<code>Rcpp</code>包编写高性能函数</li>
+<li>R的C语言接口</li>
+</ul>
+<hr>
+<h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><h2 id="data-structure"><a href="#data-structure" class="headerlink" title="data structure"></a>data structure</h2><p>R语言的<strong>基础数据结构</strong>(几乎所有的其他对象都是建立在以下五类基础数据结构之上)</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Homogeneous</th>
+<th>Heterogenous</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1d</td>
+<td>Atomic vector</td>
+<td>List</td>
+</tr>
+<tr>
+<td>2d</td>
+<td>Matrix</td>
+<td>Data frame</td>
+</tr>
+<tr>
+<td>nd</td>
+<td>Array</td>
+</tr>
+</tbody>
+</table>
+<p>R语言<strong>没有0维数据结构（标量）</strong>，单个数字或字符串都是<strong>长度为1的向量</strong>。使用<code>str()</code>函数(structure缩写)查看任何R语言数据类型。</p>
+<p>R语言中最基本的数据结构是向量，包括<code>Atomic</code>和<code>List</code>，具有以下属性：</p>
+<ul>
+<li>typeof()：类型</li>
+<li>length()：长度</li>
+<li>attributes()：属性</li>
+</ul>
+<p><strong>Note</strong>：is.vector()不能测试对象是否是向量，只有当对象是除了名字以外，不包含其他属性时，该函数可用。需判断是否向量，使用<code>is.atomic(x)||is.list(x)</code>测试。</p>
+<h3 id="1d"><a href="#1d" class="headerlink" title="1d"></a>1d</h3><h4 id="atomic-vector"><a href="#atomic-vector" class="headerlink" title="atomic vector"></a>atomic vector</h4><p>四种常见的atomic vector：<strong>逻辑类型</strong>、<strong>整数</strong>、<strong>双精度</strong>（又称数值类型）和<strong>字符类型</strong>。罕见的，<strong>复数类型</strong>和<code>raw</code>类型。</p>
+<p>atomic vector由<code>c()</code>创建，combine，因此<code>c()</code>也能用来合并几个向量，合并前<code>c()</code>会将atomic vector强制转换成list.</p>
+<ul>
+<li>使用<code>L</code>后缀，得到整数，默认双精度</li>
+<li>使用<code>TRUE</code>和<code>FALSE</code>或(T/F)创建逻辑向量</li>
+<li>使用双引号创建字符串</li>
+</ul>
+<p>atomic vector总是平的(只有一维嘛)，<code>c(1,c(2,c(3,4)))</code>与<code>c(1,2,3,4)</code>相同。</p>
+<p>缺失值<code>NA</code>，是<strong>长度为1的逻辑向量</strong>。<code>c()</code>函数总是强制将<code>NA</code>转换为正确的类型，或者使用<code>NA_real_</code>（双精度）、<code>NA_integer_</code>（整数）、<code>NA_character_</code>来指定。</p>
+<p><code>typeof()</code>与<code>is.character()</code>、<code>is.double()</code>、<code>is.integer()</code>、<code>is.logical()</code>甚至是<code>is.atomic()</code>通用。</p>
+<p><strong>NOTE.1</strong>:<code>is.numeric()</code>测试向量而非双精度，虽然双精度称为数值(numeric)。整数、字符串、双精度返回都是<code>TRUE</code>。</p>
+<p><strong>NOTE.2</strong>:强制转换向最灵活的类型进行。灵活性从小到大依次为<strong>逻辑</strong>、<strong>整数</strong>、<strong>双精度</strong>、<strong>字符串</strong>。</p>
+<p><strong>NOTE.3</strong>:<code>as.numeric()</code>、<code>as.character()</code>、<code>as.double()</code>、<code>as.integer()</code>、<code>as.logical()</code>强制类型转换。</p>
+<h4 id="List"><a href="#List" class="headerlink" title="List"></a>List</h4><p>list元素可不同，甚至是list。创建使用<code>list()</code>函数。list有时被称为<strong>递归向量</strong>，因为list可以包含其他list，使用<code>is.recursive(x)</code>判断。</p>
+<p><code>is.list()</code>和<code>as.list()</code>、<code>unlist()</code>测试、强制转换list，以及将list转为atomic vector(如果类型不同，则不行)。</p>
+<p>list用来创建更加复杂的数据结构，如<strong>数据框</strong>、<strong>线性模型对象</strong>(lm()产生)。</p>
+<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><p>所有对象都可以拥有任意多个<strong>附加属性</strong>，附加属性用来存取与该对象相关的<strong>元数据</strong>。属性可看作是<strong>已命名的list(带有不重复的名字)</strong>。属性可以使用<code>attr()</code>函数逐个访问，也可以使用<code>attributes()</code>函数一次性访问。</p>
+<p><strong>NOTE.1</strong>: 修改属性<code>attr(x,&quot;my_attr_name&quot;)&lt;-&quot;this...&quot;</code>，<code>str(attributies(x))</code>则返回的是一个list.</p>
+<p><strong>NOTE.2</strong>: 默认情况下，修改向量(atomic vector,list)，大多数属性会丢失。但是有三个重要的属性不会丢失。</p>
+<p>这三个属性：</p>
+<ul>
+<li>name: 字符串向量</li>
+<li>dimension: 维度</li>
+<li>class：类</li>
+</ul>
+<p>这些属性都有一个<strong>特定的访问函数</strong>，<code>names(x)</code>、<code>class(x)</code>、<code>dim(x)</code>，而不是<code>attr(x,&quot;names&quot;)</code>…。(names说明向量可以对每个元素命名，使用names(x)&lt;-c(“a1”,”a2”,…)或使用setNames(1:3,c(“a1”,”a2”,”a3”))使用后者对前者命名。当然，也并不需要都命名，<code>names()</code>函数将使用<strong>空字符串</strong>，即<code>&quot;&quot;</code>，如果所有的元素都无名，则返回<code>NULL</code>。因此，也可以使用<code>unname(x)</code>或<code>names(x)&lt;-NULL</code>创建无名向量。)</p>
+<h4 id="因子"><a href="#因子" class="headerlink" title="因子"></a>因子</h4><p>属性的运用。仅包含<strong>预定义值</strong>，用来保存category或level，相当于枚举，构建于<strong>整数向量</strong>之上。</p>
+<p><code>factor()</code>带有两个属性：</p>
+<ul>
+<li>class()，区别于普通整数向量</li>
+<li>levels()，定义了允许取值集合。</li>
+</ul>
+<p>再补充，没读懂</p>
+<h3 id="矩阵和数组"><a href="#矩阵和数组" class="headerlink" title="矩阵和数组"></a>矩阵和数组</h3><p>为原子向量添加<code>dim()</code>属性，可以让它变成多维数组，<code>array()</code>函数创建，数组的一个特例是矩阵，<code>matrix()</code>函数创建，或者通过<code>dim()</code>函数对维度属性进行设置得到。</p>
+<p><code>length()</code>和<code>names()</code>在任何维度上都可以使用，但对于矩阵和数组，有细分。</p>
+<ul>
+<li>length():对矩阵，<code>nrow()</code>和<code>ncol()</code>分别获取行数列数，对数组<code>dim()</code>获取维度</li>
+<li><p>names():对矩阵，<code>rownames()</code>和<code>colnames()</code>获取行名、列名；对数组，<code>dimnames()</code>获取维度名字。</p>
+</li>
+<li><p><code>cbind()</code>和<code>rbind()</code>是对<code>c()</code>函数的矩阵推广</p>
+</li>
+<li><p><code>abind()</code>是对<code>c()</code>函数的数组推广(<code>abind</code>包提供)</p>
+</li>
+<li><p><code>t()</code>是矩阵的转置，对应的是<code>aperm()</code>函数对数组的转置</p>
+</li>
+<li><p><code>is.matrix()</code>,<code>is.array()</code>,<code>dim()</code>,<code>as.matrix()</code>,<code>as.array()</code></p>
+</li>
+<li>可以创建单行或单列矩阵、数组，看起来与向量没区别，但部分函数会输出奇怪的结果。<code>str()</code>查看区别。</li>
+</ul>
+<h3 id="数据框"><a href="#数据框" class="headerlink" title="数据框"></a>数据框</h3><p>数据框是R语言中最常用的数据存储方式，是由<strong>等长向量构成的列表</strong>。data.frame二维，矩阵和列表的结合。拥有<code>names()</code>,<code>colnames()</code>,<code>rownames()</code>等函数，<code>names()</code>和<code>colnames()</code>对数据框来说是一样的。<code>length()</code>是列表长度，与<code>ncol()</code>相同。</p>
+<h4 id="创建、转换、连接"><a href="#创建、转换、连接" class="headerlink" title="创建、转换、连接"></a>创建、转换、连接</h4><ul>
+<li>data.frame()以<strong>带命名的向量</strong>作为输入</li>
+<li>data.frame()默认将<strong>字符转换为因子</strong>，使用<code>stringAsFactors=FALSE</code>避免此行为</li>
+<li>class() or is.data.frame()检验</li>
+<li>as.data.frame()强制转换，数据框是<code>S3</code>类，由向量构成</li>
+</ul>
+<p>as.data.frame()强制转换</p>
+<ul>
+<li>原子向量自动创建单列数据框</li>
+<li>每个元素为一列，若长度不同，报错</li>
+</ul>
+<p>使用<code>cbind()</code>和<code>rbind()</code><strong>连接</strong>数据框。按列连接时，行数必须匹配，行名被忽略；按行连接时，列数匹配。<code>plyr::rbind.fill()</code>可连接列数不同的数据框。</p>
+<p><strong>注意</strong>：<code>cbind()</code>参数必须是<code>data.frame</code>，它会将原子向量转为<code>matrix</code>而不是<code>data.frame</code>。或者将<code>cbind()</code>传入<code>data.frame()</code>中作为参数也可以，如<code>data.frame(cbind(a=1:2,b=c(&quot;a&quot;,&quot;b&quot;)))</code>。<code>cbind()</code>的转换规则复杂(好好研究)</p>
+<p><code>data.frame</code>可传入<code>list</code>，但它将<code>list</code>的每一个元素都分开放到每一个列中，若<code>list</code>中的每一个元素长度不同，则报错。使用<code>I()</code>函数，将<code>list</code>看成一个整体单元。<code>I()</code>函数增加了<code>Asls</code>类。但<code>list</code>的长度必须和其他传入<code>data.frame</code>的arg长度相同。每一个行对应<code>list</code>中的一个元素。</p>
+<h2 id="取子集操作"><a href="#取子集操作" class="headerlink" title="取子集操作"></a>取子集操作</h2><p>取子集操作是<code>str()</code>函数的补充操作，<code>str()</code>展示对象结构，取子集则取出感兴趣的部分。R语言取子集操作强大而迅速，学习它需要掌握很多相关概念：</p>
+<ul>
+<li>三种取子集操作符</li>
+<li>六种类型的取子集方式</li>
+<li>不同对象(vector,list,factor,matrix,data.frame et al.)之间取子集操作的区别</li>
+<li>赋值和取子集操作联合使用</li>
+</ul>
+<p>三种取子集操作符：<code>[</code>(原子向量等)、<code>[[</code>、<code>$</code>。</p>
+<ol>
+<li>以原子向量为例</li>
+</ol>
+<p>以原子向量为例，然后拓展到其他。五种方法:</p>
+<ul>
+<li>正整数返回index，如x[c(3,1)],x[order(x)],x[c(2.1,2.9)]只取整数部分，忽略其他部分</li>
+<li>负整数，排除法取子集</li>
+<li>逻辑向量，选出对应位置为<code>TRUE</code>的元素</li>
+<li>什么都不写，返回原始向量</li>
+<li>0返回零长度的向量(产生测试数据时)</li>
+<li>字符向量setNames(x,xnames)命名，然后用名字查找</li>
+</ul>
+<ol>
+<li>list</li>
+</ol>
+<p>对list，使用<code>[</code>取出列表，使用<code>[[</code>和<code>$</code>取出列表的一部分</p>
+<ol>
+<li>matrix and array</li>
+</ol>
+<ul>
+<li>多个向量，对每一维提供一个索引，以逗号隔开</li>
+<li>单个向量，并辅之以空白，取整个维</li>
+<li>matrix</li>
+</ul>
+<p>R语言中的数组，按照<strong>以列为主</strong>的顺序存储的。</p>
+<ol>
+<li>data.frame</li>
+</ol>
+<p>data.frame既有list特点，又有matrix的特点，若用一个向量取子集，则是list，若用两个向量取子集，则是matrix.</p>
+<ol>
+<li>S3对象</li>
+</ol>
+<p>S3对象是由原子向量、数组和列表组成的</p>
+<p>6 S4对象</p>
+<p>对S4对象，有另外两种取子集操作符：<code>@</code>(相当于$)和<code>slot()</code>(相当于<code>[[</code>)。<code>@</code>比<code>$</code>更加严格，如果<code>slot</code>不存在，返回错误。</p>
+<h3 id="取子集操作符"><a href="#取子集操作符" class="headerlink" title="取子集操作符"></a>取子集操作符</h3><p><code>[[</code>与<code>[</code>类似；对于字符取子集操作，<code>$</code>是<code>[[</code>的简化写法</p>
+<p>对list操作，<code>[</code>总是返回一个<code>子列表</code>，<code>[[</code>则返回内容</p>
+<blockquote>
+<p>如果列表x是一列载有对象的火车，那么x[[5]]就是第5节车厢里的对象，而x[4:6]是第4-6节车厢</p>
+</blockquote>
+<p>因为data.frame是list组成的list，所以可以使用<code>[[</code>提取列。</p>
+<ol>
+<li>取子集方式：simplifying or preserving</li>
+</ol>
+<p>simplifying or preserving其实是是否将结果进行一定的自动化处理，simplifying则自动转化为更简单的数据类型，preserving则使输出与输入的结构保持相同。在编程环境下，会更好，因为不需要担心结构发生变化。</p>
+<p>不同数据类型，不同的变化：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:left">simplifying</th>
+<th style="text-align:left">preserving</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">vector</td>
+<td style="text-align:left">x[[1]]</td>
+<td style="text-align:left">x[1]</td>
+</tr>
+<tr>
+<td style="text-align:left">list</td>
+<td style="text-align:left">x[[1]]</td>
+<td style="text-align:left">x[1]</td>
+</tr>
+<tr>
+<td style="text-align:left">factor</td>
+<td style="text-align:left">x[1:4, drop = T]</td>
+<td style="text-align:left">x[1:4]</td>
+</tr>
+<tr>
+<td style="text-align:left">array</td>
+<td style="text-align:left">x[1,] or x[,1]</td>
+<td style="text-align:left">x[1,,drop=F] or x[,1,drop=F]</td>
+</tr>
+<tr>
+<td style="text-align:left">data.frame</td>
+<td style="text-align:left">x[,1] or x[[1]]</td>
+<td style="text-align:left">x[,1,drop=F] or x[1]</td>
+</tr>
+</tbody>
+</table>
+<p>其中，<code>drop= T</code>是说丢弃所有没有用到的水平。对于factor来说，是必要的</p>
+<ol>
+<li>$</li>
+</ol>
+<p><code>$</code>是一种简化操作符，<code>x$y</code>等价于<code>x[[&quot;y&quot;,exact=FALSE]]</code>，通常用于访问data.frame中的变量。</p>
+<ol>
+<li>索引缺失/越界</li>
+</ol>
+<p>看懂以后再补充</p>
+<h3 id="取子集与赋值"><a href="#取子集与赋值" class="headerlink" title="取子集与赋值"></a>取子集与赋值</h3><p>所有的取子集操作符都可以与赋值操作符结合起来使用，用以修改输入向量中被选定的值。</p>
+<p>看懂以后再补充</p>
+<h2 id="词汇表"><a href="#词汇表" class="headerlink" title="词汇表"></a>词汇表</h2><p>为了熟练使用R编程，需要掌握一系列函数、包、各种设置等等。通过浏览<code>base</code>、<code>stats</code>以及<code>utils</code>包中的所有函数，作者给出了这个列表，并选出了作者认为最有用的函数。(你也可以试试)。列表中还列出了一些具有特别重要功能的包，以及一些重要的<code>options()</code>设置。</p>
+<h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><ol>
+<li>首先要学的函数：</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?,str</span><br></pre></td></tr></table></figure>
+<ol>
+<li>重要的运算符和赋值函数：</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">%<span class="keyword">in</span>%, match, =, &lt;-, &lt;&lt;-, $, [,[[, head, tail, subset,</span><br><span class="line">with ,assign, get</span><br></pre></td></tr></table></figure>
+<ol>
+<li>比较</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">all.equal, idential, !=, ==, &gt;, &gt;=, &lt;, &lt;=</span><br><span class="line">is.na, complete.cases, is.finite</span><br></pre></td></tr></table></figure>
+<ol>
+<li>基本数学函数</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">*, +, -, /, ^, %%, %/%</span><br><span class="line">abs, sign, acos, asin, atan, atan2, sin, cos, tan</span><br><span class="line">ceiling, floor, round, trunc, signif, exp, log, log10, log2</span><br><span class="line">sqrt, max, min, prod, sum</span><br><span class="line">cummax, cummin, cumprod cumsum, diff</span><br><span class="line">pmax, pmin, range, mean, median, cor, sd, var, rle</span><br></pre></td></tr></table></figure>
+<ol>
+<li>用于函数的函数</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>, missing, on.exit, <span class="keyword">return</span>, invisible</span><br></pre></td></tr></table></figure>
+<ol>
+<li>逻辑和集合</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&amp;, |, !, xor, all, any, intersect, union, setdiff</span><br><span class="line">setequal, which</span><br></pre></td></tr></table></figure>
+<ol>
+<li>向量和矩阵</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c, matrix</span><br></pre></td></tr></table></figure>
+<ol>
+<li>自动强制转换(character&gt;numeric&gt;logical)</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">length, dim, ncol, nrow, cbind, rbind</span><br><span class="line">names, colnames, rownames, t, diag, sweep</span><br><span class="line">as.matrix, data.matrix</span><br></pre></td></tr></table></figure>
+<ol>
+<li>创建向量</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">c, rep, rep\_len, seq, seq\_len, seq\_along</span><br><span class="line">vocabulary59, rev, sample, choose, factorial, combn</span><br><span class="line">(is/as).(character/numeric/logical/<span class="keyword">...</span>)</span><br></pre></td></tr></table></figure>
+<ol>
+<li>列表和data.frame</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">list, unlist, data.frame, as.data.frame</span><br><span class="line">split, expand.grid</span><br></pre></td></tr></table></figure>
+<ol>
+<li>控制流</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>, &amp;&amp;, ||(short circuiting)</span><br><span class="line"><span class="keyword">for</span>, <span class="keyword">while</span>, <span class="keyword">next</span>, <span class="keyword">break</span>, <span class="keyword">switch</span>, ifelse</span><br></pre></td></tr></table></figure>
+<ol>
+<li>apply函数</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lapply, sapply, vapply, apply, tapply, replicate</span><br></pre></td></tr></table></figure>
+<h3 id="通用数据结构"><a href="#通用数据结构" class="headerlink" title="通用数据结构"></a>通用数据结构</h3><ol>
+<li>日期与时间</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ISOdate, ISOdatetime, strftime, strptime, date, difftime</span><br><span class="line">julian, months, quarters, weekdays</span><br><span class="line"><span class="keyword">library</span>(lubridate)</span><br></pre></td></tr></table></figure>
+<ol>
+<li>字符操作</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grep, agrep, gsub, strsplit, chartr, nchar, tolower, toupper</span><br><span class="line">substr, paste, <span class="keyword">library</span>(stringr)</span><br></pre></td></tr></table></figure>
+<ol>
+<li>因子</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">factor, levels, nlevels, reorder, relevel</span><br><span class="line">cut, findInterval, interaction</span><br><span class="line">options(stringsAsFactors=<span class="literal">FALSE</span>)</span><br></pre></td></tr></table></figure>
+<ol>
+<li>数组操作</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">array, dim, dimnames, aperm, <span class="keyword">library</span>(abind)</span><br></pre></td></tr></table></figure>
+<h3 id="统计学"><a href="#统计学" class="headerlink" title="统计学"></a>统计学</h3><ol>
+<li>排序与制表</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">duplicated, unique, merge, order, rank, quantile</span><br><span class="line">sort, table, ftable</span><br></pre></td></tr></table></figure>
+<ol>
+<li>线性模型</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">fitted, predict, resid, rstandard</span><br><span class="line">lm, glm, hat, influence.measures</span><br><span class="line">logLik, df, deviance</span><br><span class="line">formula, ~, I</span><br><span class="line">anova, coef, confint, vcov</span><br><span class="line">contrasts</span><br></pre></td></tr></table></figure>
+<ol>
+<li>其他测试</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apropos(<span class="string">"\\.test$"</span>)</span><br></pre></td></tr></table></figure>
+<ol>
+<li>随机变量</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(q,p,d,r)*(beta,binom,cauchy,chisq,exp,f,gamma,geom,</span><br><span class="line">hyper,lnorm,logis,multinom,nbinom,norm,pois,signrank,</span><br><span class="line">t,unif,weibull,wilcox,birthday,tukey)</span><br></pre></td></tr></table></figure>
+<ol>
+<li>矩阵代数</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">crossprod, tcrossprod</span><br><span class="line">eigen, qr, svd</span><br><span class="line">%*%, %o%, outer</span><br><span class="line">rcond</span><br><span class="line">solve</span><br></pre></td></tr></table></figure>
+<h3 id="使用R语言"><a href="#使用R语言" class="headerlink" title="使用R语言"></a>使用R语言</h3><ol>
+<li>工作空间</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ls, exists, rm</span><br><span class="line">getwd, setwd</span><br><span class="line">q, <span class="keyword">source</span>, install.packages, <span class="keyword">library</span>, <span class="keyword">require</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>帮助</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">help, ?</span><br><span class="line">help.search, apropos, RSiteSearch, citation, demo, example</span><br><span class="line">vignette</span><br></pre></td></tr></table></figure>
+<ol>
+<li>调试</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">traceback, browser, recover, options(error=)</span><br><span class="line"><span class="keyword">stop</span>, <span class="keyword">warning</span>, message, <span class="keyword">tryCatch</span>, <span class="keyword">try</span></span><br></pre></td></tr></table></figure>
+<h3 id="输入-输出"><a href="#输入-输出" class="headerlink" title="输入/输出"></a>输入/输出</h3><ol>
+<li>输出</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print, cat, message, <span class="keyword">warning</span>, dput, format</span><br><span class="line">sink, capture.output</span><br></pre></td></tr></table></figure>
+<ol>
+<li>读写数据</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">data, count.fields, read.csv, write.csv, read.delim,</span><br><span class="line">write.delim, read.fwf, readLines, writeLines,</span><br><span class="line">readRDS, saveRDS, load, save,</span><br><span class="line"><span class="keyword">library</span>(foreign)</span><br></pre></td></tr></table></figure>
+<ol>
+<li>文件和路径</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dir, basename, dirname, tools::file_ext, file.path,</span><br><span class="line">path.expand, normalizePath, file.choose, file.copy,</span><br><span class="line">file.create, file.remove, file.rename, dir.create,</span><br><span class="line">file.exists, file.info, tempdir, tempfile,</span><br><span class="line">download.file, <span class="keyword">library</span>(downloader)</span><br></pre></td></tr></table></figure>
+<h2 id="编码风格指南"><a href="#编码风格指南" class="headerlink" title="编码风格指南"></a>编码风格指南</h2><ol>
+<li>文件名有意义，并以<code>.R</code>结尾(不是<code>.r</code>)。</li>
+<li>如需要按顺序执行，可在文件名之前加上数字前缀</li>
+<li>像普通英文文章一样，等式两端空格，逗号之后空格</li>
+</ol>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>函数是R语言中的基本模块。理解R语言最重要的事情是知道函数本身也是对象，可以用与其它任何类型的对象完全一样的方式来使用函数。</p>
+<p>前提条件：<code>pryr</code>包，研究<strong>就地修改</strong>向量操作。</p>
+<h3 id="函数的组成部分"><a href="#函数的组成部分" class="headerlink" title="函数的组成部分"></a>函数的组成部分</h3><p>所有的R语言函数都有三个组成部分：</p>
+<ul>
+<li>函数体，<code>body()</code>，函数的代码</li>
+<li>形式参数列表，<code>formals()</code>，控制函数调用的参数列表</li>
+<li>环境，<code>environment()</code>，函数的变量所在位置的地图</li>
+</ul>
+<p>在打印R语言函数时，将会展示这三个重要的组成部分。如果<strong>环境</strong>没有显示，那么意味着函数是在<strong>全局环境</strong>中创建的。</p>
+<p><code>body()&lt;-</code>、<code>formals()&lt;-</code>、<code>environment()&lt;-</code>也可用于修改函数。</p>
+<p>像R语言中的所有对象，函数还可以拥有任意数量的<strong>附加属性</strong>。被基础R语言使用的一个属性是<code>srcref</code>，它是<strong>源引用</strong>(source reference)，指向用于创建函数的源代码。与<strong>函数体</strong>不同，它包含<strong>代码注释</strong>和<strong>其他格式</strong>。</p>
+<h4 id="primitive-function"><a href="#primitive-function" class="headerlink" title="primitive function"></a>primitive function</h4><p>(原文翻译的是原语函数。。。)函数都有三个组成部分的规则有一个例外，即<strong>primitive functions</strong>，比如<code>sum()</code>，直接使用了<code>.Primitive()</code>调用C语言代码，并且不包含R语言代码。因此，它们的<code>formals()</code>、<code>body()</code>和<code>environment()</code>都是<code>NULL</code>。</p>
+<p><code>Primitive function</code>只存在于<code>base</code>包中，由于它在底层运作，所以效率更高，可以对<strong>参数匹配</strong>使用不同的规则，如<code>switch</code>和<code>call</code>。然而使用的成本与R其他函数的行为不同。</p>
+<p>唉，理解困难了。。。</p>
+</div></article><div class="tags"><a href="/tags/R/">R</a></div><div class="paginator"><a id="prev" href="/2016/06/27/python-R/" data-title="Python plus R" class="prev"><i class="iconfont icon-left"></i><span>Prev</span></a><a id="next" href="/2016/06/21/stata_command/" data-title="Note on Stata" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div><section id="comments"><div id="disqus_thread"></div></section><script type="text/javascript">var disqus_config = function () {
+    this.page.url = 'http://yoursite.com/2016/06/27/advanced_R/';
+    this.page.identifier = '2016/06/27/advanced_R/';
+    this.page.title = 'Advanced R';
+};
+(function() {
+var d = document, s = d.createElement('script');
+
+s.src = '//Your disqus ID.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();</script></section><footer><div class="social"><a href="mailto:xiangpan2011@163.com" title="email" class="iconfont icon-email"></a><a href="/atom.xml" title="rss" class="iconfont icon-rss"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Xiang</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>

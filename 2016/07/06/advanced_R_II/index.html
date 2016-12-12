@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Xiang"><meta name="description" content="首先介绍一下AniKatchova的R教程，然后再继续总结AdvancedR."><meta name="keywords" content="R"><title>R (Ani Katchova) · Eric</title><link rel="icon" href="/favicon.ico"><link rel="canonical" href="http://yoursite.com/2016/07/06/advanced_R_II/"><link rel="alternate" href="/atom.xml" title="Eric"><link rel="stylesheet" href="/css/style.css"><script type="text/javascript">var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?Your baidu Analytics ID";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'Your Google Analytics ID', 'auto');
+ga('send', 'pageview');</script></head><body><div id="main"><header><a href="/." class="logo">Eric</a><ul class="nav"><li class="nav-link"><a href="/" target="_self">Home</a></li><li class="nav-link"><a href="/archives/" target="_self">Archives</a></li><li class="nav-link"><a href="/categories/" target="_self">Categories</a></li><li class="nav-link"><a href="/tags/" target="_self">Tags</a></li><li class="nav-link"><a href="/about/" target="_self">About</a></li></ul></header><section id="container"><article class="post"><h1 class="post-title">R (Ani Katchova)</h1><span class="post-time">Jul 6, 2016</span><div id="sidebar" class="post-sidebar"><h3 class="heading">Contents</h3><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#R-Ani-Katchova"><span class="toc-text">R (Ani Katchova)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#R-introduction"><span class="toc-text">R introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#count-data-model"><span class="toc-text">count data model</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ivreg"><span class="toc-text">ivreg</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#R语言忍者秘笈"><span class="toc-text">R语言忍者秘笈</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Advanced-R"><span class="toc-text">Advanced R</span></a></li></ol></div><div class="post-content"><p>首先介绍一下Ani Katchova的R教程，然后再继续总结Advanced R.<br><a id="more"></a></p>
+<h1 id="R-Ani-Katchova"><a href="#R-Ani-Katchova" class="headerlink" title="R (Ani Katchova)"></a>R (Ani Katchova)</h1><h2 id="R-introduction"><a href="#R-introduction" class="headerlink" title="R introduction"></a>R introduction</h2><ol>
+<li>setwd(“path”)设置工作路径</li>
+<li>mydata&lt;-read.csv(“path”)读csv</li>
+<li>attach(mydata)成为part ofmemory</li>
+<li>names(mydata) list names</li>
+<li>head(mydata); mydata[1:10,]</li>
+<li>summary,sd,length,sort,table,cor,t.test(mpg,mu=20)</li>
+<li>anova(lm(mpg~factor(foreign))) 两组数据均值相等</li>
+<li>olsreg&lt;-lm(mpg ~ weight + legth + foreign)</li>
+<li>summary(olsreg)</li>
+<li>plot(mpg~weight)</li>
+<li>abline(olsreg)添加曲线</li>
+<li>类似stata的用法</li>
+</ol>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Y&lt;-cbind(mpg)</span><br><span class="line">X&lt;-cbind(weight,length,foreign)</span><br><span class="line">summary(Y)</span><br><span class="line">summary(X)</span><br><span class="line">olsreg&lt;-lm(Y~X)</span><br><span class="line">summary(olsreg)</span><br></pre></td></tr></table></figure>
+<h2 id="count-data-model"><a href="#count-data-model" class="headerlink" title="count data model"></a>count data model</h2><ol>
+<li>possion model coeff: glm(Y~X, family=poisson)</li>
+<li>test for overdispersion: dispersiontest(poisson)</li>
+</ol>
+<h2 id="ivreg"><a href="#ivreg" class="headerlink" title="ivreg"></a>ivreg</h2><ol>
+<li>ivreg(Y ~ Y2 + X1 | x1 + X2)</li>
+</ol>
+<h1 id="R语言忍者秘笈"><a href="#R语言忍者秘笈" class="headerlink" title="R语言忍者秘笈"></a>R语言忍者秘笈</h1><p>Writing R Extensions</p>
+<p>Task Views查看package质量，在其他CRAN镜像上找到，如<a href="https://cran.r-project.org/" target="_blank" rel="external">这个</a></p>
+<p>源代码<code>*.tar.gz</code>压缩包。</p>
+<p>配置R。两个主要的配置文件：<code>.Renviron</code>和<code>.Rprofile</code></p>
+<p>windows下独有的配置文件<code>Rconsole</code>，是一个文本文件，它的路径可以直接用R代码找到：</p>
+<blockquote>
+<p>file.path(R.home(‘etc’),’Rconsole’)</p>
+</blockquote>
+<h1 id="Advanced-R"><a href="#Advanced-R" class="headerlink" title="Advanced R"></a>Advanced R</h1><p>match, %in%, &amp;&amp;</p>
+</div></article><div class="tags"><a href="/tags/R/">R</a></div><div class="paginator"><a id="prev" href="/2016/08/06/r-ninja-1/" data-title="谢益辉-one" class="prev"><i class="iconfont icon-left"></i><span>Prev</span></a><a id="next" href="/2016/06/30/markdown-syntax/" data-title="Markdown Syntax" class="next"><span>Next</span><i class="iconfont icon-right"></i></a></div><section id="comments"><div id="disqus_thread"></div></section><script type="text/javascript">var disqus_config = function () {
+    this.page.url = 'http://yoursite.com/2016/07/06/advanced_R_II/';
+    this.page.identifier = '2016/07/06/advanced_R_II/';
+    this.page.title = 'R (Ani Katchova)';
+};
+(function() {
+var d = document, s = d.createElement('script');
+
+s.src = '//Your disqus ID.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();</script></section><footer><div class="social"><a href="mailto:xiangpan2011@163.com" title="email" class="iconfont icon-email"></a><a href="/atom.xml" title="rss" class="iconfont icon-rss"></a></div><div class="copyright"><p class="power">Powered by <a href="https://hexo.io/">Hexo</a> and Theme by <a href="https://github.com/ahonn/hexo-theme-even"> Even</a></p><p class="since">&copy;2016<span class="heart"><i class="iconfont icon-heart"></i></span><span class="author">Xiang</span></p></div><div id="back2top"><i class="iconfont icon-up"></i></div></footer></div><script src="/js/zepto.min.js"></script><script src="/js/theme.js"></script></body></html>
